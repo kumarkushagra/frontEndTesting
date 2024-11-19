@@ -12,8 +12,8 @@ if not os.path.exists(DSP_FOLDER):
 @app.route('/')
 def index():
     try:
-        # List all .txt files in the DSP folder
-        files = [f for f in os.listdir(DSP_FOLDER) if f.endswith('.txt')]
+        # List all .txt files in the DSP folder and sort them in ascending order
+        files = sorted([f for f in os.listdir(DSP_FOLDER) if f.endswith('.txt')])
         return render_template('index.html', files=files)
     except Exception as e:
         return f"Error: {str(e)}"
