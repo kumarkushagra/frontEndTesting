@@ -21,7 +21,7 @@
         }
         textarea {
             width: 80%;
-            height: 200px;
+            height: 300px;
             margin-top: 20px;
             font-family: monospace;
             font-size: 14px;
@@ -30,23 +30,33 @@
     </style>
 </head>
 <body>
-    <h1>Experiment Codes</h1>
+    <h1>DSP Experiment Codes</h1>
     <div class="button-container">
-        <button onclick="showCode('Experiment 1 Code Here')">Experiment 1</button>
-        <button onclick="showCode('Experiment 2 Code Here')">Experiment 2</button>
-        <button onclick="showCode('Experiment 3 Code Here')">Experiment 3</button>
-        <button onclick="showCode('Experiment 4 Code Here')">Experiment 4</button>
-        <button onclick="showCode('Experiment 5 Code Here')">Experiment 5</button>
-        <button onclick="showCode('Experiment 6 Code Here')">Experiment 6</button>
-        <button onclick="showCode('Experiment 7 Code Here')">Experiment 7</button>
-        <button onclick="showCode('Experiment 8 Code Here')">Experiment 8</button>
-        <button onclick="showCode('Experiment 9 Code Here')">Experiment 9</button>
+        <button onclick="loadCode('DSP/exp1.txt')">Experiment 1</button>
+        <button onclick="loadCode('DSP/exp2.txt')">Experiment 2</button>
+        <button onclick="loadCode('DSP/exp3.txt')">Experiment 3</button>
+        <button onclick="loadCode('DSP/exp4.txt')">Experiment 4</button>
+        <button onclick="loadCode('DSP/exp5.txt')">Experiment 5</button>
+        <button onclick="loadCode('DSP/exp6.txt')">Experiment 6</button>
+        <button onclick="loadCode('DSP/exp7.txt')">Experiment 7</button>
+        <button onclick="loadCode('DSP/exp8.txt')">Experiment 8</button>
+        <button onclick="loadCode('DSP/exp9.txt')">Experiment 9</button>
     </div>
     <textarea id="codeDisplay" readonly>Click a button to display the code here.</textarea>
 
     <script>
-        function showCode(code) {
-            document.getElementById('codeDisplay').value = code;
+        function loadCode(filePath) {
+            fetch(filePath)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Failed to load file: ${filePath}`);
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('codeDisplay').value = data;
+                })
+                .catch(error => {
+                    document.getElementById('codeDisplay').value = `Error: ${error.message}`;
+                });
         }
     </script>
 </body>
