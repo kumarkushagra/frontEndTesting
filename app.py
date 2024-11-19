@@ -2,7 +2,7 @@ from flask import Flask, send_from_directory, render_template
 import os
 
 app = Flask(__name__)
-CN_FOLDER = os.path.join(os.getcwd(), 'CN')  # Path to your folder
+CN_FOLDER = os.path.join(os.getcwd(), 'DSP')  # Path to your folder
 
 # Route to list files
 @app.route('/')
