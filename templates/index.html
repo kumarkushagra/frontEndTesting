@@ -3,14 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Downloader</title>
+    <title>Experiment Codes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .button-container {
+            margin: 20px 0;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        textarea {
+            width: 80%;
+            height: 200px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
+    <h1>Experiment Codes</h1>
+    <div class="button-container">
+        <button onclick="showCode('Experiment 1 Code Here')">Experiment 1</button>
+        <button onclick="showCode('Experiment 2 Code Here')">Experiment 2</button>
+        <button onclick="showCode('Experiment 3 Code Here')">Experiment 3</button>
+        <button onclick="showCode('Experiment 4 Code Here')">Experiment 4</button>
+        <button onclick="showCode('Experiment 5 Code Here')">Experiment 5</button>
+        <button onclick="showCode('Experiment 6 Code Here')">Experiment 6</button>
+        <button onclick="showCode('Experiment 7 Code Here')">Experiment 7</button>
+        <button onclick="showCode('Experiment 8 Code Here')">Experiment 8</button>
+        <button onclick="showCode('Experiment 9 Code Here')">Experiment 9</button>
+    </div>
+    <textarea id="codeDisplay" readonly>Click a button to display the code here.</textarea>
 
-    <ul>
-        {% for file in files %}
-            <li><a href="/download/{{ file }}">{{ file }}</a></li>
-        {% endfor %}
-    </ul>
+    <script>
+        function showCode(code) {
+            document.getElementById('codeDisplay').value = code;
+        }
+    </script>
 </body>
 </html>
