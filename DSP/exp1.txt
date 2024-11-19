@@ -1,0 +1,59 @@
+AIM: An LTI system is specified by the difference equation
+y(n) = 0.9y(n - 1) + x(n)
+(i) Find H(z) and sketch its pole-zero plot.
+(ii) Plot (e) and (e).
+(iii) Calculate and plot the steady-state response ys(n) to x(n) = cos(0.05pi*n) * u(n)
+
+
+
+Code:
+
+1a)
+clc;
+clear all ;
+close all;
+x=[1]; %Numerator of Transfer Function
+y=[1,-0.9]; %Denominator of Transfer Function
+subplot(3,1,1)
+zplane(x,y); %Pole-Zero Plot
+
+1b)
+clc;
+clear all ;
+close all;
+x=[1]; %Numerator of Transfer Function
+y=[1,-0.9]; %Denominator of Transfer Function
+w=linspace(-2*pi,2*pi);
+H=freqz(x,y,w);
+magH=abs(H);
+angH=angle(H);
+subplot(3,1,2);
+plot(w/pi,magH);
+xlabel('Frequency in pi');
+ylabel('Magnitude');
+title('Magnitude Response');
+subplot(3,1,3);
+plot(w/pi,angH);
+xlabel('Frequency in Pi');
+ylabel('Phase in Pi radians');
+title('Phase Response');
+
+1c)
+clc;
+clear all ;
+close all;
+x=[1]; %Numerator of Transfer Function
+y=[1,-0.9]; %Denominator of Transfer Function
+n=[0:150];
+z=cos(0.05*pi*n);
+a=filter(x,y,z);
+subplot(2,1,1);
+stem(n,z);
+xlabel('n');
+ylabel('x[n]');
+title('Input Signal');
+subplot(2,1,2);
+stem(n,a);
+xlabel('n');
+ylabel('y[n]');
+title('Output Signal');
