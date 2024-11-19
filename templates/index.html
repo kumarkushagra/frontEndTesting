@@ -3,61 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experiment Codes</title>
+    <title>DSP Files</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
         }
-        .button-container {
-            margin: 20px 0;
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 50%;
         }
-        button {
-            margin: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
         }
-        textarea {
-            width: 80%;
-            height: 300px;
-            margin-top: 20px;
-            font-family: monospace;
-            font-size: 14px;
-            padding: 10px;
+        th {
+            background-color: #f4f4f4;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>DSP Experiment Codes</h1>
-    <div class="button-container">
-        <button onclick="loadCode('DSP/exp1.txt')">Experiment 1</button>
-        <button onclick="loadCode('DSP/exp2.txt')">Experiment 2</button>
-        <button onclick="loadCode('DSP/exp3.txt')">Experiment 3</button>
-        <button onclick="loadCode('DSP/exp4.txt')">Experiment 4</button>
-        <button onclick="loadCode('DSP/exp5.txt')">Experiment 5</button>
-        <button onclick="loadCode('DSP/exp6.txt')">Experiment 6</button>
-        <button onclick="loadCode('DSP/exp7.txt')">Experiment 7</button>
-        <button onclick="loadCode('DSP/exp8.txt')">Experiment 8</button>
-        <button onclick="loadCode('DSP/exp9.txt')">Experiment 9</button>
-    </div>
-    <textarea id="codeDisplay" readonly>Click a button to display the code here.</textarea>
-
-    <script>
-        function loadCode(filePath) {
-            fetch(filePath)
-                .then(response => {
-                    if (!response.ok) throw new Error(`Failed to load file: ${filePath}`);
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('codeDisplay').value = data;
-                })
-                .catch(error => {
-                    document.getElementById('codeDisplay').value = `Error: ${error.message}`;
-                });
-        }
-    </script>
+    <h1>DSP Experiment Files</h1>
+    <table>
+        <tr>
+            <th>Filename</th>
+            <th>Action</th>
+        </tr>
+        {% for file in files %}
+        <tr>
+            <td>{{ file }}</td>
+            <td><a href="/view/{{ file }}">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

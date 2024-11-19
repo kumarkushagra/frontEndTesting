@@ -1,0 +1,152 @@
+% 2a) DTFT and DFT Examples
+
+clc;
+clear all;
+close all;
+
+% DTFT
+w = 0:0.01:2*pi;
+Xw = 1 + exp(-j*w) + exp(-j*2*w) + exp(-j*3*w);
+
+% 4-point DTFT
+xn = ones(1,4);
+N = 4;
+n = 0:N-1;
+k = 0:N-1;
+WN = exp(-j*2*pi/N*n'*k);
+Xk = xn * WN;
+
+% Subplot 1: DTFT
+subplot(2,2,1);
+plot(w, abs(Xw));
+xlabel('Frequency');
+ylabel('Magnitude');
+title('DTFT');
+
+% Subplot 2: 4-point DTFT
+subplot(2,2,2);
+plot(w, abs(Xw)); hold on;
+stem(2*pi*k/N, abs(Xk), 'filled');
+xlabel('2\pi*k/4');
+ylabel('Magnitude');
+title('4-point DTFT');
+
+% 8-point DTFT
+clear N;
+xn = [ones(1,4) zeros(1,4)];
+N = 8;
+n = 0:N-1;
+k = 0:N-1;
+WN = exp(-j*2*pi/N*n'*k);
+Xk = xn * WN;
+
+% Subplot 3: 8-point DTFT
+subplot(2,2,3);
+plot(w, abs(Xw)); hold on;
+stem(2*pi*k/N, abs(Xk), 'filled');
+xlabel('2\pi*k/8');
+ylabel('Magnitude');
+title('8-point DTFT');
+
+% 16-point DTFT
+clear N;
+xn = [ones(1,4) zeros(1,12)];
+N = 16;
+n = 0:N-1;
+k = 0:N-1;
+WN = exp(-j*2*pi/N*n'*k);
+Xk = xn * WN;
+
+% Subplot 4: 16-point DTFT
+subplot(2,2,4);
+plot(w, abs(Xw)); hold on;
+stem(2*pi*k/N, abs(Xk), 'filled');
+xlabel('2\pi*k/16');
+ylabel('Magnitude');
+title('16-point DTFT');
+
+
+% 2b_a) Modulo Shifting Examples
+
+clc;
+clear all;
+close all;
+
+N = 9;
+n = 0:N-1;
+x = [1 2 3 4 5 6 7 8 9];
+
+% Subplot 1: x(n)
+subplot(1,3,1);
+stem(n, x, 'filled');
+xlabel('n');
+title('x(n)');
+
+% x(n-3, mod 9)
+n1 = mod(n-3, N);
+y1 = x(n1+1);
+
+% Subplot 2: x(n-3, mod 9)
+subplot(1,3,2);
+stem(n, y1, 'filled');
+xlabel('n');
+title('x(n-3, mod 9)');
+
+% x(n+3, mod 9)
+n2 = mod(n+3, N);
+y2 = x(n2+1);
+
+% Subplot 3: x(n+3, mod 9)
+subplot(1,3,3);
+stem(n, y2, 'filled');
+xlabel('n');
+title('x(n+3, mod 9)');
+
+
+% 2b_b) DFT and Reverse Shifting Examples
+
+clc;
+clear all;
+close all;
+
+N = 9;
+n = 0:N-1;
+x = [1 2 3 4 5 6 7 8 9];
+
+% Subplot 1: x(n)
+subplot(2,2,1);
+stem(n, x, 'filled');
+xlabel('n');
+title('x(n)');
+
+% DFT of x(n)
+k = 0:N-1;
+WN = exp(-j*2*pi/N*n'*k);
+Xk = x * WN;
+
+% Subplot 2: DFT of x(n)
+subplot(2,2,2);
+stem(k, abs(Xk), 'filled');
+xlabel('k');
+ylabel('Magnitude');
+title('DFT[x(n)]');
+
+% x(-n, mod 9)
+n1 = mod(-n, N);
+y1 = x(n1+1);
+
+% Subplot 3: x(-n, mod 9)
+subplot(2,2,3);
+stem(n, y1, 'filled');
+xlabel('n');
+title('x(-n, mod 9)');
+
+% DFT of x(-n, mod 9)
+Xk = y1 * WN;
+
+% Subplot 4: DFT of x(-n, mod 9)
+subplot(2,2,4);
+stem(k, abs(Xk), 'filled');
+xlabel('k');
+ylabel('Magnitude');
+title('DFT[x(-n, mod 9)]');

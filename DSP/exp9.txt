@@ -1,0 +1,57 @@
+clc;
+clear;
+close all;
+
+% Filter specifications
+T = 1;                   % Sampling time
+wp = 0.3 * pi;           % Passband angular frequency
+ws = 0.8 * pi;           % Stopband angular frequency
+Ap = 1;                  % Passband ripple (in dB)
+As = 40;                 % Stopband attenuation (in dB)
+
+% Pre-warped frequencies
+Wp = (2 / T) * tan(wp / 2);  
+Ws = (2 / T) * tan(ws / 2);
+
+% Ripple ratio
+R = (10^(0.1 * Ap) - 1) / (10^(0.1 * As) - 1);
+
+% Filter order calculation
+N = ceil((1 / 2) * (log10(R) / log10(Wp / Ws)));
+
+% Cutoff frequency calculation
+Wc = Wp / ( (10^(0.1 * Ap) - 1)^(1 / (2 * N)) );
+
+% Design the Butterworth filter
+[b, a] = butter(N, Wc, 'low', 's');  % 's' for analog filter
+
+% Continuous-time transfer function
+Hs = tf(b, a);
+
+% Discretize using bilinear transformation
+[numd, dend] = bilinear(b, a, 1 / T);
+Hz = tf(numd, dend, T);
+
+% Display transfer functions
+disp('Continuous-time transfer function H(s):');
+disp(Hs);
+disp('Discrete-time transfer function H(z):');
+disp(Hz);
+
+% Frequency response analysis
+w = 0:0.01:pi;  % Frequency range
+Hw = freqz(numd, dend, w);
+
+% Plot magnitude response
+figure;
+subplot(2, 1, 1);
+plot(w, abs(Hw));  % Linear magnitude
+xlabel('Frequency (rad/sample)');
+ylabel('Magnitude');
+title('Magnitude Response');
+
+subplot(2, 1, 2);
+plot(w, 20 * log10(abs(Hw)));  % Magnitude in dB
+xlabel('Frequency (rad/sample)');
+ylabel('Magnitude (dB)');
+title('Magnitude Response in dB');

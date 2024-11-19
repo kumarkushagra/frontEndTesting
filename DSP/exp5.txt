@@ -1,0 +1,23 @@
+n = 1:100;
+k = 1:100;
+x = cos(0.48 * pi * n) + cos(0.52 * pi * n);  % Input Signal
+xpad = [x(1:10), zeros(1, 90)];  % Input Signal With Padded Zeros
+N = 100;  % N-point DFT
+w = 2 * pi / N;
+
+% Plotting
+subplot(2, 2, 1);
+stem(x);
+title('Input Signal');
+
+subplot(2, 2, 2);
+stem(abs(x * exp(-1i * (n' * w * k))));
+title('100-Point DFT of Input Signal');
+
+subplot(2, 2, 3);
+stem(xpad);
+title('Input Signal with Padded Zeros');
+
+subplot(2, 2, 4);
+stem(abs(xpad * exp(-1i * (n' * w * k))));
+title('10-Point DFT of Input Signal');

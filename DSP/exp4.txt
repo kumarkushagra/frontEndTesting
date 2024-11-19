@@ -1,0 +1,116 @@
+% Experiment 4(a) and 4(b) Combined
+
+% Experiment 4(a)
+clear all;
+close all;
+clc;
+
+% 4(a) Setup
+n = 0:9;
+N = 6;
+x = n + 1;
+Lenx = length(x);
+h = [1 0 -1];
+M = length(h);
+M1 = M - 1;
+L = N - M1;
+hz = [h zeros(1, N - M)];  % Appending N-M Zeros
+nhz = 0:length(hz) - 1;
+xz = [zeros(1, M1) x zeros(1, N - 1)];  % Preappending M-1 Zeros
+nxz = 0:length(xz) - 1;
+K = ceil((Lenx + M1 - 1) / L);
+y = zeros(K, N);
+
+for i = 0:K - 1
+    xi = xz(i * L + 1:i * L + N);
+    for j = 0:N - 1
+        m = 0:N - 1;
+        n1 = mod(j - m, N);
+        hs = hz(n1 + 1);
+        xh = xi .* hs;
+        y(i + 1, j + 1) = sum(xh);
+    end
+end
+
+y = y(:, M:N)';  % Discarding First M-1 Samples
+y = [y(:)]';     % Concatenating The Output
+ny = 0:length(y) - 1;
+
+% Plotting for 4(a)
+subplot(2, 3, 1);
+stem(nxz, xz, 'filled');
+xlabel('n');
+ylabel('x(n)');
+title('x(n)');
+
+subplot(2, 3, 2);
+stem(nhz, hz, 'filled');
+xlabel('n');
+ylabel('h(n)');
+title('h(n)');
+
+subplot(2, 3, 3);
+stem(ny, y, 'filled');
+xlabel('n');
+ylabel('y(n)');
+title('y(n)');
+
+% Experiment 4(b)
+clear all;
+close all;
+clc;
+
+% 4(b) Setup
+n = 0:9;
+N = 4;
+x = n + 1;
+Lenx = length(x);
+h = [1 0 -1];
+M = length(h);
+M1 = M - 1;
+L = N + M - 1;
+hz = [h zeros(1, L - M)];  % Appending N-M Zeros
+nhz = 0:length(hz) - 1;
+K = ceil(Lenx / N);
+xx = [x zeros(1, N * K - Lenx)];  % Preappending M-1 Zeros
+nxx = 0:length(xx) - 1;
+y = zeros(K, N);
+
+for i = 0:K - 1
+    xi = xx(i * N + 1:N * (i + 1));
+    xr = [xi zeros(1, M1)];
+    for j = 0:L - 1
+        m = 0:L - 1;
+        n1 = mod(j - m, L);
+        hs = hz(n1 + 1);
+        xh = xr .* hs;
+        y(i + 1, j + 1) = sum(xh);
+    end
+end
+
+yy = [];  % Adding Last M-1 Samples
+for i = 1:K - 1
+    y(i, :) = [y(i, 1:N) y(i, N + 1:L) + y(i + 1, 1:M1)];
+end
+
+yy = [y(1, 1:L) y(2, M:L) y(3, M:L - M1)];
+ny = 0:length(yy) - 1;
+
+% Plotting for 4(b)
+subplot(2, 3, 4);
+stem(nxx, xx, 'filled');
+xlabel('n');
+ylabel('x(n)');
+title('x(n)');
+
+subplot(2, 3, 5);
+stem(nhz, hz, 'filled');
+xlabel('n');
+ylabel('h(n)');
+title('h(n)');
+
+subplot(2, 3, 6);
+stem(ny, yy, 'filled');
+xlabel('n');
+ylabel('y(n)');
+title('y(n)');

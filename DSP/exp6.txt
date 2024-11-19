@@ -1,0 +1,56 @@
+clc;
+clear all;
+close all;
+
+Fp = 2000;  % Fp = 2 KHz
+Fs = 5000;  % Fs = 5 KHz
+Ft = 20000; % Ft = 20 KHz
+
+wp = (2 * pi * Fp) / Ft;   % Passband angular frequency
+ws = (2 * pi * Fs) / Ft;   % Stopband angular frequency
+trwidth = ws - wp;         % Transition Width
+
+M = ceil(6.2 * pi / trwidth) + 2;  % Filter Length
+tau = (M - 1) / 2;
+wc = (wp + ws) / 2;         % Cutoff frequency
+n = 0:M-1;
+
+hd = (sin(wc * (n - tau))) ./ (pi * (n - tau));  % Ideal impulse response
+hd(tau + 1) = 0.35;  % Handling the middle value
+
+whan = hann(M)';  % Hann window
+h = hd .* whan;   % Practical impulse response
+
+w = 0:0.02:pi;
+Hw = freqz(h, 1, w);   % Frequency response
+MagHw = abs(Hw);       % Magnitude response
+HwdB = 20 * log10(MagHw / max(MagHw));  % Magnitude in dB
+
+% Plotting
+subplot(2, 2, 1);
+stem(n, hd, 'filled');
+axis([-1 M -0.15 0.5]);
+xlabel('n');
+ylabel('hd(n)');
+title('Ideal Impulse Response');
+
+subplot(2, 2, 2);
+stem(n, whan, 'filled');
+axis([-1 M -0.1 1.2]);
+xlabel('n');
+ylabel('w(n)');
+title('Hann Window');
+
+subplot(2, 2, 3);
+stem(n, h, 'filled');
+axis([-1 M -0.15 0.5]);
+xlabel('n');
+ylabel('w(n)');
+title('Practical Impulse Response');
+
+subplot(2, 2, 4);
+plot(w / pi, HwdB);
+axis([0 1 -100 10]);
+xlabel('Frequency (in \pi units)');
+ylabel('dB');
+title('Magnitude Response');

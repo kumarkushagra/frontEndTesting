@@ -1,0 +1,80 @@
+% Experiment 1(a) and 1(b) Combined
+
+% 1(a) Circular Convolution
+clc;
+clear all;
+close all;
+N = 4;
+x1 = [1 2 2 1];
+x2 = [1 -1 -1 1];
+y = zeros(1, N);
+
+% Circular convolution for 1(a)
+for n = 0:N-1
+    m = 0:N-1;
+    n1 = mod(n - m, N);
+    xs2 = x2(n1 + 1);
+    x12 = x1 .* xs2;
+    y(n + 1) = sum(x12);
+end
+
+n = 0:N-1;
+
+% Plotting for 1(a)
+subplot(1, 3, 1);
+stem(n, x1, 'filled');
+xlabel('n');
+title('x1(n)');
+
+subplot(1, 3, 2);
+stem(n, x2, 'filled');
+xlabel('n');
+title('x2(n)');
+
+subplot(1, 3, 3);
+stem(n, y, 'filled');
+xlabel('n');
+title('y(n)');
+
+
+% 1(b) Linear Convolution
+clc;
+clear all;
+close all;
+N = 4;
+x1 = [1 2 2 1];
+Nx1 = length(x1);
+x2 = [1 -1 -1 1];
+Nx2 = length(x2);
+Ny = Nx1 + Nx2 - 1;
+
+x1z = [x1 zeros(1, Ny - Nx1)];
+x2z = [x2 zeros(1, Ny - Nx2)];
+y = zeros(1, Ny);
+
+% Linear convolution for 1(b)
+for n = 0:Ny-1
+    m = 0:Ny-1;
+    n1 = mod(n - m, Ny);
+    x2s = x2z(n1 + 1);
+    x12 = x1z .* x2s;
+    y(n + 1) = sum(x12);
+end
+
+n = 0:Ny-1;
+
+% Plotting for 1(b)
+subplot(1, 3, 1);
+stem(n, x1z, 'filled');
+xlabel('n');
+title('x1(n)');
+
+subplot(1, 3, 2);
+stem(n, x2z, 'filled');
+xlabel('n');
+title('x2(n)');
+
+subplot(1, 3, 3);
+stem(n, y, 'filled');
+xlabel('n');
+title('y(n)');
